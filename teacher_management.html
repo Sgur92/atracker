@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Supabase Connection Checker</h2>
+        <button onclick="checkConnection()">Check Connection</button>
+        <div id="result"></div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
+        const { createClient } = supabase;
+        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+        async function checkConnection() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Checking connection...';
+            resultDiv.className = '';
+
+            try {
+                // Test connection by querying the 'teacher' table
+                const { data, error } = await supabaseClient
+                    .from('teacher')
+                    .select('id, user_id')
+                    .limit(1);
+
+                if (error) {
+                    throw error;
+                }
+
+                // Connection and table access successful
+                resultDiv.textContent = data.length > 0 
+                    ? `Connection successful! Found data in teacher table (id: ${data[0].id}, user_id: ${data[0].user_id}).`
+                    : 'Connection successful! Teacher table exists but is empty.';
+                resultDiv.className = 'success';
+            } catch (error) {
+                // Handle specific errors
+                if (error.message.includes('not found')) {
+                    resultDiv.textContent = 'Connection successful, but table "teacher" not found or inaccessible.';
+                    resultDiv.className = 'error';
+                } else if (error.message.includes('permission')) {
+                    resultDiv.textContent = 'Connection successful, but anon key lacks permission to access "teacher" table.';
+                    resultDiv.className = 'error';
+                } else {
+                    resultDiv.textContent = 'Connection failed: ' + error.message;
+                    resultDiv.className = 'error';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
