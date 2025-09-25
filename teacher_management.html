@@ -189,16 +189,17 @@ tr:hover{
 </div>
 
 <script>
-  // Supabase setup (v2)
-  const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  // Correct Supabase v2 initialization
+  const supabaseClient = supabase.createClient(
+    'https://zsdvjfmzeiejiyhwvkre.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4'
+  );
 
   const teacherForm = document.getElementById('teacherForm');
   const teacherTable = document.getElementById('teacherTable').querySelector('tbody');
 
   async function fetchTeachers(){
-    const { data, error } = await supabase.from('teacher').select('*').order('id',{ascending:true});
+    const { data, error } = await supabaseClient.from('teacher').select('*').order('id',{ascending:true});
     if(error){console.error(error);}
     else{
       teacherTable.innerHTML = '';
@@ -235,7 +236,7 @@ tr:hover{
     const username = generateUsername(name);
     const password = generatePassword();
 
-    const { data, error } = await supabase.from('teacher').insert([{ name, email, username, password }]);
+    const { data, error } = await supabaseClient.from('teacher').insert([{ name, email, username, password }]);
     if(error){alert('Error adding teacher'); console.error(error);}
     else{
       teacherForm.reset();
@@ -245,7 +246,7 @@ tr:hover{
 
   async function deleteTeacher(id){
     if(confirm('Are you sure to remove this teacher?')){
-      const { data, error } = await supabase.from('teacher').delete().eq('id',id);
+      const { data, error } = await supabaseClient.from('teacher').delete().eq('id',id);
       if(error){alert('Error deleting'); console.error(error);}
       else fetchTeachers();
     }
@@ -255,7 +256,7 @@ tr:hover{
     const newName = prompt('Update Name:', name);
     const newEmail = prompt('Update Email:', email);
     if(newName && newEmail){
-      const { data, error } = await supabase.from('teacher').update({name:newName,email:newEmail}).eq('id',id);
+      const { data, error } = await supabaseClient.from('teacher').update({name:newName,email:newEmail}).eq('id',id);
       if(error){alert('Error updating'); console.error(error);}
       else fetchTeachers();
     }
