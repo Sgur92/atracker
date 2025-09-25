@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N-Sikhi Teacher Manager</title>
+    <title>Supabase Teacher Manager</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
@@ -345,7 +345,7 @@
 
                 document.getElementById('teachersList').innerHTML = table;
 
-                resultDiv.textContent = ;
+                resultDiv.textContent = 'Teachers loaded successfully!';
                 resultDiv.className = 'success';
             } catch (error) {
                 resultDiv.textContent = 'Error loading teachers: ' + error.message;
