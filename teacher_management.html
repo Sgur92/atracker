@@ -39,7 +39,6 @@
 
   <!-- Teacher Management Card -->
   <div class="card w-full max-w-4xl p-6">
-
     <h2 class="text-xl md:text-2xl font-semibold text-center text-yellow-400 mb-6">Teacher Management</h2>
 
     <!-- Add Teacher Form -->
@@ -71,9 +70,9 @@
   </div>
 
   <!-- Supabase + Script -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // ✅ Initialize Supabase correctly
+    // Initialize Supabase
     const { createClient } = window.supabase;
     const supabaseClient = createClient(
       "https://zsdvjfmzeiejiyhwvkre.supabase.co",
@@ -83,73 +82,129 @@
     // Add teacher
     document.getElementById("teacherForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = document.getElementById("teacherName").value;
-      const username = document.getElementById("teacherUsername").value;
-      const password = document.getElementById("teacherPassword").value;
+      const name = document.getElementById("teacherName").value.trim();
+      const username = document.getElementById("teacherUsername").value.trim();
+      const password = document.getElementById("teacherPassword").value.trim();
 
-      const { data, error } = await supabaseClient
-        .from("teacher")
-        .insert([{ name, username, password }]);
+      if (!name || !username || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-      if (error) {
-        alert("Error adding teacher: " + error.message);
-      } else {
+      try {
+        // SECURITY NOTE: Storing plain-text passwords is insecure. Consider using Supabase Auth or server-side hashing.
+        const { data, error } = await supabaseClient
+          .from("teacher")
+          .insert([{ name, username, password }]);
+
+        if (error) throw error;
         alert("Teacher added successfully!");
         loadTeachers();
         e.target.reset();
+      } catch (error) {
+        console.error("Error adding teacher:", error);
+        alert("Error adding teacher: " + error.message);
       }
     });
 
     // Load teachers
     async function loadTeachers() {
-      const { data, error } = await supabaseClient
-        .from("teacher")
-        .select("*");
+      try {
+        const { data, error } = await supabaseClient
+          .from("teacher")
+          .select("*");
 
-      if (error) {
+        if (error) throw error;
+        console.log("Fetched teachers:", data);
+
+        const table = document.getElementById("teacherTable");
+        table.innerHTML = "";
+
+        data.forEach((t) => {
+          const row = `
+            <tr>
+              <td class="p-3">${t.id}</td>
+              <td class="p-3">${t.name}</td>
+              <td class="p-3">${t.username}</td>
+              <td class="p-3">
+                <button onclick="deleteTeacher(${t.id})" class="btn bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg">Delete</button>
+              </td>
+            </tr>`;
+          table.innerHTML += row;
+        });
+      } catch (error) {
         console.error("Error loading teachers:", error);
-        return;
+        alert("Error loading teachers: " + error.message);
       }
-
-      const table = document.getElementById("teacherTable");
-      table.innerHTML = "";
-
-      data.forEach((t) => {
-        const row = `
-          <tr>
-            <td class="p-3">${t.id}</td>
-            <td class="p-3">${t.name}</td>
-            <td class="p-3">${t.username}</td>
-            <td class="p-3">
-              <button onclick="deleteTeacher(${t.id})" class="btn bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg">Delete</button>
-            </td>
-          </tr>`;
-        table.innerHTML += row;
-      });
     }
 
     // Delete teacher
     async function deleteTeacher(id) {
-      const { error } = await supabaseClient
-        .from("teacher")
-        .delete()
-        .eq("id", id);
+      try {
+        console.log("Deleting teacher with ID:", id);
+        const { error } = await supabaseClient
+          .from("teacher")
+          .delete()
+          .eq("id", id);
 
-      if (error) {
-        alert("Error deleting teacher: " + error.message);
-      } else {
+        if (error) throw error;
         alert("Teacher deleted successfully!");
         loadTeachers();
+      } catch (error) {
+        console.error("Error deleting teacher:", error);
+        alert("Error deleting teacher: " + error.message);
       }
     }
 
     // Logout
-    function logout() {
-      window.location.href = "index.html";
+    async function logout() {
+      try {
+        // If using Supabase Auth, uncomment the following line
+        // await supabaseClient.auth.signOut();
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Error during logout:", error);
+      }
     }
 
     // Initial load
     loadTeachers();
+
+    // Optional: Using Supabase Auth for secure user management (uncomment to use)
+    /*
+    document.getElementById("teacherForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("teacherName").value.trim();
+      const username = document.getElementById("teacherUsername").value.trim();
+      const password = document.getElementById("teacherPassword").value.trim();
+
+      if (!name || !username || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      try {
+        const { user, error } = await supabaseClient.auth.signUp({
+          email: username + "@example.com", // Use a real email or adjust logic
+          password,
+        });
+
+        if (error) throw error;
+
+        const { data, error: insertError } = await supabaseClient
+          .from("teacher")
+          .insert([{ name, username, user_id: user.id }]);
+
+        if (insertError) throw insertError;
+        alert("Teacher added successfully!");
+        loadTeachers();
+        e.target.reset();
+      } catch (error) {
+        console.error("Error adding teacher:", error);
+        alert("Error adding teacher: " + error.message);
+      }
+    });
+    */
   </script>
 </body>
 </html>
