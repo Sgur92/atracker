@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Management - Atracker Institute</title>
+<!-- Supabase JS v2 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
@@ -189,7 +190,7 @@ tr:hover{
 </div>
 
 <script>
-  // Correct Supabase v2 initialization
+  // Correct Supabase initialization using global 'supabase'
   const supabaseClient = supabase.createClient(
     'https://zsdvjfmzeiejiyhwvkre.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4'
