@@ -86,17 +86,16 @@
       const username = document.getElementById("teacherUsername").value.trim();
       const password = document.getElementById("teacherPassword").value.trim();
 
-      if (!name || !username || !password) {
-        alert("Please fill in all fields.");
+      if (!username || !password) { // Removed name from validation since it's not in schema
+        alert("Please fill in Username and Password fields.");
         return;
       }
 
       try {
         // SECURITY NOTE: Storing plain-text passwords is insecure. Consider using Supabase Auth or server-side hashing.
-        // Mapping form fields to existing schema: using username as user_id temporarily
         const { data, error } = await supabaseClient
           .from("teacher")
-          .insert([{ user_id: username, password, name }]); // Adjusted to match schema
+          .insert([{ user_id: username, password }]); // Removed name from insert
 
         if (error) throw error;
         alert("Teacher added successfully!");
@@ -125,51 +124,7 @@
           const row = `
             <tr>
               <td class="p-3">${t.id}</td>
-              <td class="p-3">${t.name}</td>
-              <td class="p-3">${t.user_id}</td> <!-- Displaying user_id as username -->
+              <td class="p-3">${t.user_id || 'N/A'}</td> <!-- Using user_id as a fallback for Name -->
+              <td class="p-3">${t.user_id || 'N/A'}</td> <!-- Using user_id as Username -->
               <td class="p-3">
-                <button onclick="deleteTeacher(${t.id})" class="btn bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg">Delete</button>
-              </td>
-            </tr>`;
-          table.innerHTML += row;
-        });
-      } catch (error) {
-        console.error("Error loading teachers:", error);
-        alert("Error loading teachers: " + error.message);
-      }
-    }
-
-    // Delete teacher
-    async function deleteTeacher(id) {
-      try {
-        console.log("Deleting teacher with ID:", id);
-        const { error } = await supabaseClient
-          .from("teacher")
-          .delete()
-          .eq("id", id);
-
-        if (error) throw error;
-        alert("Teacher deleted successfully!");
-        loadTeachers();
-      } catch (error) {
-        console.error("Error deleting teacher:", error);
-        alert("Error deleting teacher: " + error.message);
-      }
-    }
-
-    // Logout
-    async function logout() {
-      try {
-        // If using Supabase Auth, uncomment the following line
-        // await supabaseClient.auth.signOut();
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("Error during logout:", error);
-      }
-    }
-
-    // Initial load
-    loadTeachers();
-  </script>
-</body>
-</html>
+                <button onclick="deleteTeacher(${t.id})" class="btn bg-red-600 hover:bg-red-700 text-white px-3 py-1
