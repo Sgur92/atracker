@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N-Sikhi Teacher Manager</title>
+    <title>Supabase Teacher Manager</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Changed to flex-start to align from top */
+            min-height: 100vh;
             background: linear-gradient(135deg, #0a1f44, #1e3c72);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            color: #fff;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden; /* Prevent horizontal overflow */
+            overflow-x: hidden;
+            padding-top: 70px; /* Add padding to account for logout button */
         }
 
         @keyframes gradientBG {
@@ -30,10 +28,10 @@
         }
 
         .logout-btn {
-            position: absolute;
+            position: fixed; /* Changed to fixed for top-right consistency */
             top: 20px;
             right: 20px;
-            padding: 0.7rem 1.2rem;
+            padding: 0.7rem 1rem; /* Reduced padding for smaller size */
             border: none;
             border-radius: 8px;
             background: #ffd700;
@@ -42,6 +40,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 1rem;
+            z-index: 10; /* Ensure it stays above other elements */
+            width: auto; /* Allow natural width */
         }
 
         .logout-btn:hover {
@@ -54,16 +54,15 @@
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(15px);
             border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 600px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
-            transform: translateY(-50px);
             opacity: 0;
             animation: slideFadeIn 1s forwards;
-            max-width: 600px;
-            width: 90%;
-            margin: 0 auto; /* Center on all screens */
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-top: 0; /* Removed margin-top, handled by body padding */
         }
 
         @keyframes slideFadeIn {
@@ -74,28 +73,33 @@
         }
 
         .dashboard-card h2 {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            font-size: 1.6rem;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2);
         }
 
         input {
-            display: block;
-            margin: 10px auto;
-            padding: 10px;
-            width: 80%;
-            max-width: 300px;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.1);
+            width: 100%;
+            padding: 1rem 1rem;
+            margin-bottom: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.25);
             color: #fff;
             outline: none;
-            transition: border-color 0.3s ease;
-            font-size: 1rem;
+        }
+
+        input::placeholder {
+            color: #ccc;
         }
 
         input:focus {
-            border-color: #ffd700;
+            background: rgba(255,255,255,0.35);
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
         input[readonly] {
@@ -104,19 +108,21 @@
         }
 
         button {
-            padding: 0.7rem 1.2rem;
-            font-size: 1rem;
-            background-color: #ffd700;
-            color: black;
+            width: 100%;
+            padding: 0.7rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+            background: #ffd700;
+            color: #1e3c72;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            margin: 10px 5px;
             transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
 
         button:hover {
-            background-color: #e6c200;
+            background: #e6c200;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
@@ -130,12 +136,15 @@
         }
 
         #result {
-            margin-top: 20px;
+            margin-top: 1rem;
             font-weight: 500;
+            min-height: 1.2rem;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
         }
 
         .success {
-            color: #ffd700;
+            color: #4CAF50;
         }
 
         .error {
@@ -145,17 +154,17 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 1.5rem;
             background: rgba(255,255,255,0.1);
-            table-layout: auto; /* Allow table to adjust width */
+            table-layout: auto;
         }
 
         th, td {
             border: 1px solid rgba(255,255,255,0.3);
-            padding: 10px;
+            padding: 1rem 0.5rem;
             text-align: left;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         th {
@@ -163,9 +172,9 @@
         }
 
         .actions button {
-            padding: 5px 10px;
-            margin: 0 2px;
-            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            font-size: 0.9rem;
         }
 
         .edit-btn {
@@ -186,96 +195,97 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 480px) { /* Mobile */
+            body {
+                padding-top: 60px; /* Adjusted for mobile */
+            }
             .dashboard-card {
-                padding: 1.5rem 1rem;
-                width: 95%;
+                padding: 2rem 1.5rem;
             }
             .dashboard-card h2 {
                 font-size: 1.4rem;
             }
-            input {
-                font-size: 0.9rem;
-                max-width: 250px;
+            input, button {
+                padding: 0.9rem 1rem;
             }
             button {
-                padding: 0.5rem 1rem;
                 font-size: 0.9rem;
             }
             .logout-btn {
                 top: 10px;
                 right: 10px;
-                padding: 0.5rem 1rem;
+                padding: 0.6rem 0.9rem; /* Smaller padding */
                 font-size: 0.9rem;
             }
             table {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
             }
             th, td {
-                padding: 6px;
+                padding: 0.8rem 0.4rem;
             }
             .actions button {
-                font-size: 0.7rem;
-                padding: 4px 8px;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
             }
         }
 
         @media (min-width: 481px) and (max-width: 768px) { /* Tablet */
+            body {
+                padding-top: 70px; /* Adjusted for tablet */
+            }
             .dashboard-card {
-                padding: 2rem 1.5rem;
-                width: 90%;
+                padding: 2.5rem 2rem;
             }
             .dashboard-card h2 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
-            input {
-                max-width: 280px;
+            input, button {
+                padding: 0.95rem 1rem;
             }
             button {
-                padding: 0.6rem 1.1rem;
-                font-size: 0.95rem;
+                font-size: 1.05rem;
             }
             .logout-btn {
-                font-size: 0.95rem;
+                font-size: 1.05rem;
             }
             table {
-                font-size: 0.85rem;
+                font-size: 0.95rem;
             }
             th, td {
-                padding: 8px;
+                padding: 0.9rem 0.5rem;
             }
             .actions button {
-                font-size: 0.75rem;
-                padding: 5px 9px;
+                font-size: 0.85rem;
+                padding: 0.5rem 0.9rem;
             }
         }
 
         @media (min-width: 769px) { /* Desktop */
+            body {
+                padding-top: 70px; /* Default padding */
+            }
             .dashboard-card {
                 padding: 3rem 2.5rem;
-                width: 80%;
-                max-width: 600px;
             }
             .dashboard-card h2 {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
-            input {
-                max-width: 300px;
+            input, button {
+                padding: 1rem 1rem;
             }
             button {
-                padding: 0.7rem 1.2rem;
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             .logout-btn {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             table {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
             th, td {
-                padding: 10px;
+                padding: 1rem 0.5rem;
             }
             .actions button {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -284,7 +294,7 @@
     <div class="container">
         <button class="logout-btn" onclick="logout()">Logout</button>
         <div class="dashboard-card">
-            <h2>N-Sikhi Teacher Manager</h2>
+            <h2>Supabase Teacher Manager</h2>
             
             <input id="name" placeholder="Teacher Name" required>
             <input id="user_id" placeholder="User ID" required>
@@ -301,7 +311,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Initialize Supabase client
         const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
         const { createClient } = supabase;
@@ -309,7 +318,6 @@
 
         let editingId = null;
 
-        // Load teachers on page load
         window.onload = loadTeachers;
 
         async function loadTeachers() {
@@ -323,9 +331,7 @@
                     .select('*')
                     .order('id', { ascending: true });
 
-                if (error) {
-                    throw error;
-                }
+                if (error) throw error;
 
                 let table = '<table><tr><th>ID</th><th>Name</th><th>User ID</th><th>Password</th><th>Created At</th><th>Actions</th></tr>';
                 data.forEach(row => {
@@ -345,7 +351,7 @@
 
                 document.getElementById('teachersList').innerHTML = table;
 
-                resultDiv.textContent = 'Atracker';
+                resultDiv.textContent = 'Teachers loaded successfully!';
                 resultDiv.className = 'success';
             } catch (error) {
                 resultDiv.textContent = 'Error loading teachers: ' + error.message;
@@ -457,9 +463,13 @@
             document.getElementById('cancelButton').style.display = 'none';
         }
 
-          function logout() {
-    window.location.href = 'index.html'; // redirect to login page
-  }
+        function logout() {
+            window.location.href = 'index.html'; // redirect to login page
+        }
     </script>
 </body>
 </html>
+
+    
+  
+
