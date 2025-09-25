@@ -93,9 +93,10 @@
 
       try {
         // SECURITY NOTE: Storing plain-text passwords is insecure. Consider using Supabase Auth or server-side hashing.
+        // Mapping form fields to existing schema: using username as user_id temporarily
         const { data, error } = await supabaseClient
           .from("teacher")
-          .insert([{ name, username, password }]);
+          .insert([{ user_id: username, password, name }]); // Adjusted to match schema
 
         if (error) throw error;
         alert("Teacher added successfully!");
@@ -125,7 +126,7 @@
             <tr>
               <td class="p-3">${t.id}</td>
               <td class="p-3">${t.name}</td>
-              <td class="p-3">${t.username}</td>
+              <td class="p-3">${t.user_id}</td> <!-- Displaying user_id as username -->
               <td class="p-3">
                 <button onclick="deleteTeacher(${t.id})" class="btn bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg">Delete</button>
               </td>
@@ -169,42 +170,6 @@
 
     // Initial load
     loadTeachers();
-
-    // Optional: Using Supabase Auth for secure user management (uncomment to use)
-    /*
-    document.getElementById("teacherForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = document.getElementById("teacherName").value.trim();
-      const username = document.getElementById("teacherUsername").value.trim();
-      const password = document.getElementById("teacherPassword").value.trim();
-
-      if (!name || !username || !password) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      try {
-        const { user, error } = await supabaseClient.auth.signUp({
-          email: username + "@example.com", // Use a real email or adjust logic
-          password,
-        });
-
-        if (error) throw error;
-
-        const { data, error: insertError } = await supabaseClient
-          .from("teacher")
-          .insert([{ name, username, user_id: user.id }]);
-
-        if (insertError) throw insertError;
-        alert("Teacher added successfully!");
-        loadTeachers();
-        e.target.reset();
-      } catch (error) {
-        console.error("Error adding teacher:", error);
-        alert("Error adding teacher: " + error.message);
-      }
-    });
-    */
   </script>
 </body>
 </html>
