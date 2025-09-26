@@ -5,100 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atracker Institute - Nishan-e-Sikhi Login</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a1f44, #1e3c72);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-}
-@keyframes gradientBG {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a1f44, #1e3c72);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+  }
 
-.login-card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-  padding: 3rem 2.5rem;
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
-  transform: translateY(-50px);
-  opacity: 0;
-  animation: slideFadeIn 1s forwards;
-  border: 1px solid rgba(255,255,255,0.3);
-}
-@keyframes slideFadeIn { to { transform: translateY(0); opacity: 1; } }
+  @keyframes gradientBG {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+  }
 
-.logo { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 1rem; text-shadow: 0 0 5px rgba(0,0,0,0.3);}
-.logo span { color: #ffd700; }
+  .login-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    transform: translateY(-50px);
+    opacity: 0;
+    animation: slideFadeIn 1s forwards;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
 
-.login-card h2 { margin-bottom: 1.5rem; color: #fff; font-size: 1.6rem; text-shadow: 0 0 5px rgba(0,0,0,0.2); }
+  @keyframes slideFadeIn { to { transform: translateY(0); opacity:1; } }
 
-.login-card input, .login-card select {
-  width: 100%;
-  padding: 1rem 1rem;
-  margin-bottom: 1.2rem;
-  border-radius: 10px;
-  border: none;
-  font-size: 1rem;
-  box-sizing: border-box;
-  background: rgba(255,255,255,0.25);
-  color: #fff;
-  outline: none;
-}
-.login-card input::placeholder { color: black; }
-.login-card select { color: black; }
+  .logo { font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:1rem; text-shadow:0 0 5px rgba(0,0,0,0.3); }
+  .logo span { color:#ffd700; }
 
-.login-card input:focus, .login-card select:focus {
-  background: rgba(255,255,255,0.35);
-  box-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
+  .login-card h2 { margin-bottom:1.5rem; color:#fff; font-size:1.6rem; text-shadow:0 0 5px rgba(0,0,0,0.2); }
 
-.login-card button {
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  border-radius: 10px;
-  background: #ffd700;
-  color: #1e3c72;
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 0.5rem;
-}
-.login-card button:hover { background: #e6c200; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+  .login-card input, .login-card select {
+    width:100%; padding:1rem 1rem; margin-bottom:1.2rem;
+    border-radius:10px; border:none; font-size:1rem; box-sizing:border-box;
+    background: rgba(255,255,255,0.25); color:#fff; outline:none;
+    transition: all 0.3s ease;
+  }
 
-.message { margin-top: 1rem; font-weight: 500; min-height: 1.2rem; color: #fff; text-shadow: 0 0 5px rgba(0,0,0,0.3); }
+  .login-card input::placeholder, .login-card select { color:black; }
+  .login-card input:focus, .login-card select:focus { background: rgba(255,255,255,0.35); box-shadow:0 0 10px rgba(255,255,255,0.5); }
 
-.spinner {
-  border: 4px solid rgba(255,255,255,0.3);
-  border-top: 4px solid #ffd700;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  margin: 0 auto 0.5rem auto;
-  animation: spin 1s linear infinite;
-  display: none;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .login-card button {
+    width:100%; padding:1rem; border:none; border-radius:10px;
+    background:#ffd700; color:#1e3c72; font-size:1.1rem; font-weight:500;
+    cursor:pointer; transition: all 0.3s ease; margin-top:0.5rem;
+  }
+  .login-card button:hover { background:#e6c200; transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.3); }
 
-@media(max-width: 480px) {
-  .login-card { padding: 2rem 1.5rem; }
-  .login-card h2 { font-size: 1.4rem; }
-  .login-card input, .login-card select, .login-card button { padding: 0.9rem 1rem; }
-}
+  .message { margin-top:1rem; font-weight:500; min-height:1.2rem; color:#fff; text-shadow:0 0 5px rgba(0,0,0,0.3); }
+  .spinner {
+    border:4px solid rgba(255,255,255,0.3); border-top:4px solid #ffd700;
+    border-radius:50%; width:28px; height:28px; margin:0 auto 0.5rem auto; display:none;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+  @media(max-width:480px){
+    .login-card { padding:2rem 1.5rem; }
+    .login-card h2 { font-size:1.4rem; }
+    .login-card input, .login-card select, .login-card button { padding:0.9rem 1rem; }
+  }
 </style>
 </head>
 <body>
@@ -119,61 +97,71 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
-const supabaseKey = 'YOUR_SUPABASE_KEY';
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-const loginBtn = document.getElementById('loginBtn');
-const message = document.getElementById('message');
-const spinner = document.getElementById('spinner');
+  const loginBtn = document.getElementById('loginBtn');
+  const message = document.getElementById('message');
+  const spinner = document.getElementById('spinner');
 
-loginBtn.addEventListener('click', async () => {
-  const userType = document.getElementById('userType').value;
-  const userId = document.getElementById('userId').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  if(!userId || !password){
-    message.textContent = "Please enter both User ID and Password!";
-    message.style.color = "red";
-    return;
+  // Redirect if already logged in
+  const userTypeStored = localStorage.getItem("userType");
+  if(localStorage.getItem("isLoggedIn") === "true" && userTypeStored === "admin"){
+    window.location.href = "admin_dashboard.html";
+  } else if(localStorage.getItem("isLoggedIn") === "true" && userTypeStored === "teacher"){
+    window.location.href = "teacher_dashboard.html";
   }
 
-  spinner.style.display = 'block';
-  message.textContent = '';
+  loginBtn.addEventListener('click', async () => {
+    const userType = document.getElementById('userType').value;
+    const userId = document.getElementById('userId').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-  try {
-    const { data, error } = await supabaseClient
-      .from(userType)
-      .select('*')
-      .eq('user_id', userId)
-      .eq('password', password)
-      .limit(1)
-      .single();
-
-    spinner.style.display = 'none';
-
-    if(error || !data){
-      message.textContent = "Invalid User ID or Password!";
+    if (!userId || !password) {
+      message.textContent = "Please enter both User ID and Password!";
       message.style.color = "red";
-    } else {
-      message.textContent = "Login Successful! Redirecting...";
-      message.style.color = "lime";
-
-      // Store session
-      if(userType === 'admin') localStorage.setItem('adminLoggedIn', 'true');
-      else localStorage.setItem('teacherLoggedIn', 'true');
-
-      // Redirect
-      if(userType === 'admin') window.location.href = 'admin_dashboard.html';
-      else window.location.href = 'teacher_dashboard.html';
+      return;
     }
-  } catch(err){
-    spinner.style.display = 'none';
-    message.textContent = "Something went wrong!";
-    message.style.color = "red";
-    console.error(err);
-  }
-});
+
+    spinner.style.display = 'block';
+    message.textContent = '';
+
+    try {
+      const { data, error } = await supabaseClient
+        .from(userType)
+        .select('*')
+        .eq('user_id', userId)
+        .eq('password', password)
+        .limit(1)
+        .single();
+
+      spinner.style.display = 'none';
+
+      if (error || !data) {
+        message.textContent = "Invalid User ID or Password!";
+        message.style.color = "red";
+      } else {
+        // Save session
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userType", userType);
+
+        message.textContent = `Login Successful! Redirecting...`;
+        message.style.color = "lime";
+
+        if (userType === 'admin') {
+          window.location.href = 'admin_dashboard.html';
+        } else {
+          window.location.href = 'teacher_dashboard.html';
+        }
+      }
+    } catch (err) {
+      spinner.style.display = 'none';
+      message.textContent = "Something went wrong. Try again!";
+      message.style.color = "red";
+      console.error(err);
+    }
+  });
 </script>
 
 </body>
