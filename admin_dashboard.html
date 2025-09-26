@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard - Atracker Institute</title>
+<title>Admin Dashboard - Atracker Nishan-e-Sikhi</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
   body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    min-height: 100vh;
     background: linear-gradient(135deg, #0a1f44, #1e3c72);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
+    display: flex;
+    min-height: 100vh;
     color: #fff;
   }
 
@@ -23,192 +22,150 @@
     100% {background-position: 0% 50%;}
   }
 
-  /* Fixed Logout Button */
-  .logout-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 10px;
-    background: #ffd700;
-    color: #1e3c72;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    z-index: 1000;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    opacity: 0;
-    transform: translateY(-20px);
-    animation: slideIn 0.8s forwards 0.5s;
-  }
-
-  .logout-btn:hover {
-    background: #e6c200;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-  }
-
-  @keyframes slideIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Container */
-  .container {
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    padding: 2rem 1rem;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 5rem 1rem 5rem 1rem; /* top padding for logout button */
+    transition: width 0.3s ease;
   }
 
-  /* Welcome Card */
-  .welcome-card {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    padding: 2rem 2.5rem;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+  .sidebar h2 {
     margin-bottom: 2rem;
-    max-width: 600px;
-    width: 90%;
-    opacity: 0;
-    transform: translateY(-50px);
-    animation: slideFadeIn 1s forwards 0.2s;
-  }
-
-  .welcome-card h1 {
-    font-size: 2rem;
+    font-size: 1.4rem;
     color: #ffd700;
-    margin-bottom: 0.5rem;
-  }
-
-  .welcome-card p {
-    font-size: 1.1rem;
-    color: #fff;
-    text-shadow: 0 0 5px rgba(0,0,0,0.3);
-  }
-
-  /* Sections Grid */
-  .sections {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 1000px;
-    animation: slideFadeIn 1s forwards 0.6s;
-  }
-
-  .section-card {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(15px);
-    border-radius: 15px;
-    padding: 2rem;
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .sidebar a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 0.8rem;
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar a:hover {
+    background: #ffd700;
+    color: #1e3c72;
+  }
+
+  /* Main content */
+  .main {
+    flex: 1;
+    padding: 2rem;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .logout-btn {
+    background: #ffd700;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: cardFadeIn 0.6s forwards;
+    font-weight: bold;
+    color: #1e3c72;
   }
 
-  .section-card:nth-child(1){animation-delay: 0.7s;}
-  .section-card:nth-child(2){animation-delay: 0.8s;}
-  .section-card:nth-child(3){animation-delay: 0.9s;}
-  .section-card:nth-child(4){animation-delay: 1s;}
-  .section-card:nth-child(5){animation-delay: 1.1s;}
-
-  .section-card h2 {
-    font-size: 1.3rem;
-    color: #ffd700;
-    margin-bottom: 0.2rem;
-  }
-
-  .section-card p {
-    display: none; /* removed extra description */
-  }
-
-  /* Hover animation */
-  .section-card:hover {
-    transform: translateY(-10px) scale(1.05) rotateZ(1deg);
-    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4);
-    background: rgba(255,255,255,0.25);
-  }
-
-  @keyframes slideFadeIn {
-    0% {transform: translateY(-50px); opacity: 0;}
-    100% {transform: translateY(0); opacity: 1;}
-  }
-
-  @keyframes cardFadeIn {
-    to {transform: translateY(0); opacity: 1;}
+  .card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   }
 
   /* Responsive */
-  @media(max-width: 480px) {
-    .container {
-      padding-top: 6rem; /* extra space for logout */
+  @media(max-width: 768px) {
+    .sidebar {
+      width: 70px;
+      padding: 1rem 0.5rem;
     }
-    .welcome-card {
-      padding: 1.5rem 1.5rem;
+    .sidebar h2 {
+      display: none;
     }
-    .welcome-card h1 { font-size: 1.6rem; }
-    .sections {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    .section-card { padding: 1.5rem; }
-    .logout-btn {
-      padding: 0.5rem 1rem;
+    .sidebar a {
+      text-align: center;
       font-size: 0.9rem;
+      padding: 0.7rem;
     }
   }
 </style>
 </head>
 <body>
 
-<button class="logout-btn" onclick="logout()">Logout</button>
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>Admin</h2>
+  <a href="#" onclick="loadSection('teacher')">👩‍🏫 Teacher Management</a>
+  <a href="#" onclick="loadSection('student')">👨‍🎓 Student Management</a>
+  <a href="#" onclick="loadSection('class')">🏫 Classes</a>
+  <a href="#" onclick="loadSection('subject')">📘 Subjects</a>
+</div>
 
-<div class="container">
-  <div class="welcome-card">
-    <h1>Welcome Admin</h1>
-    <p>Atracker Institute - Nishan-e-Sikhi</p>
+<!-- Main Content -->
+<div class="main">
+  <div class="topbar">
+    <h1>Dashboard</h1>
+    <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 
-  <div class="sections">
-    <div class="section-card" onclick="navigate('teacher_management.html')">
-      <h2>Teacher Management</h2>
-    </div>
-    <div class="section-card" onclick="navigate('student_management.html')">
-      <h2>Student Management</h2>
-    </div>
-    <div class="section-card" onclick="navigate('classes.html')">
-      <h2>Classes</h2>
-    </div>
-    <div class="section-card" onclick="navigate('subjects.html')">
-      <h2>Subject Management</h2>
-    </div>
-    <div class="section-card" onclick="navigate('reports.html')">
-      <h2>Reports</h2>
+  <div id="content">
+    <div class="card">
+      <h2>Welcome, Admin!</h2>
+      <p>Select an option from the sidebar to manage teachers, students, classes, or subjects.</p>
     </div>
   </div>
 </div>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
+  const supabaseKey = 'YOUR_PUBLIC_ANON_KEY';
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Session check
+  async function checkSession() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      window.location.href = 'login.html'; // back to login if not logged in
+    }
+  }
+  checkSession();
+
   function logout() {
-    window.location.href = 'index.html'; // redirect to login page
+    supabaseClient.auth.signOut();
+    window.location.href = 'login.html';
   }
 
-  function navigate(page) {
-    window.location.href = page; // navigate to section page
+  function loadSection(section) {
+    const content = document.getElementById('content');
+    let html = '';
+    if (section === 'teacher') {
+      html = `<div class="card"><h2>Teacher Management</h2><p>Here you can add, edit, or remove teachers.</p></div>`;
+    } else if (section === 'student') {
+      html = `<div class="card"><h2>Student Management</h2><p>Manage student records here.</p></div>`;
+    } else if (section === 'class') {
+      html = `<div class="card"><h2>Class Management</h2><p>Create and organize classes.</p></div>`;
+    } else if (section === 'subject') {
+      html = `<div class="card"><h2>Subject Management</h2><p>Assign and edit subjects.</p></div>`;
+    }
+    content.innerHTML = html;
   }
 </script>
-
 </body>
 </html>
