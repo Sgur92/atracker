@@ -3,135 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard - N-Sikhi Atracker</title>
-<link href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css" rel="stylesheet">
+<title>Admin Dashboard - Atracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-jQdr6fXv4ENbHZ3bMZ7Lz/kFjV+FJ6mM0l6/5yx7H7Jk1jWQH8Jm4rV1m5p0RhVfBfX1Y+5Z9/qRVp/96nT1Vg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #0a1f44, #1e3c72);
-  color: #fff;
-  display: flex;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+  /* Reset & Base */
+  * {margin:0; padding:0; box-sizing:border-box;}
+  body { font-family:'Roboto', sans-serif; background:#f0f2f5; color:#333; }
+  a { text-decoration:none; color:inherit; }
 
-.sidebar {
-  width: 240px;
-  height: 100vh;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(15px);
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding-top: 80px;
-  box-shadow: 4px 0 15px rgba(0,0,0,0.4);
-  transition: transform 0.4s ease;
-}
-.sidebar a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 1rem 1.2rem;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border-left: 4px solid transparent;
-}
-.sidebar a:hover {
-  background: rgba(255,255,255,0.2);
-  border-left: 4px solid #ffd700;
-  transform: translateX(5px);
-}
-.sidebar i { font-size: 18px; color: #ffd700; }
+  /* Header */
+  header {
+    position: fixed; top:0; left:0; right:0;
+    height:60px; background: linear-gradient(135deg,#0a1f44,#1e3c72);
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 20px; color:#fff; z-index:1000;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  }
+  header h1 { font-size:1.5rem; }
+  header .logout-btn {
+    background:#ffd700; color:#1e3c72; padding:8px 14px; border:none; border-radius:6px;
+    cursor:pointer; font-weight:500; transition:0.3s;
+  }
+  header .logout-btn:hover { background:#e6c200; }
 
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 240px;
-  right: 0;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  padding: 1rem 1.5rem;
-  font-size: 1.4rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-}
-.topbar span { color: #ffd700; }
+  /* Sidebar */
+  .sidebar {
+    position: fixed; top:60px; left:-220px;
+    width:220px; height:100%; background:#1e3c72; padding-top:20px;
+    transition:0.3s; border-radius:0 10px 10px 0;
+    z-index:999;
+  }
+  .sidebar.active { left:0; }
+  .sidebar a {
+    display:flex; align-items:center; padding:12px 20px; color:#fff;
+    font-weight:500; transition:0.3s;
+  }
+  .sidebar a i { margin-right:12px; width:20px; text-align:center; }
+  .sidebar a:hover { background:rgba(255,255,255,0.1); border-radius:6px; }
 
-.content {
-  margin-left: 240px;
-  padding: 100px 2rem 2rem;
-  flex: 1;
-}
-h1 { font-size: 2rem; margin-bottom: 1rem; }
-.card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
-}
-.card:hover { transform: translateY(-6px); }
+  /* Sidebar toggle button */
+  .toggle-btn {
+    position: fixed; top:70px; left:20px; background:#ffd700; border:none; border-radius:50%;
+    width:40px; height:40px; cursor:pointer; font-size:20px; color:#1e3c72;
+    display:flex; align-items:center; justify-content:center; z-index:1100;
+    transition:0.3s;
+  }
+  .toggle-btn:hover { background:#e6c200; }
 
-@media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); position: fixed; z-index: 1000;}
-  .sidebar.active { transform: translateX(0);}
-  .topbar { left: 0; justify-content: space-between;}
-  .menu-btn { display: block; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #fff;}
-}
+  /* Main content */
+  .main {
+    margin-top:60px; padding:20px; transition:0.3s;
+    margin-left:0;
+  }
+  .sidebar.active ~ .main { margin-left:220px; }
+
+  /* Slider/banner */
+  .slider { width:100%; max-height:250px; overflow:hidden; border-radius:12px; margin-bottom:20px; }
+  .slides { display:flex; width:500%; animation:slide 15s infinite; }
+  .slides img { width:100%; object-fit:cover; }
+  @keyframes slide {
+    0%{margin-left:0;} 20%{margin-left:-100%;}
+    40%{margin-left:-200%;} 60%{margin-left:-300%;}
+    80%{margin-left:-400%;} 100%{margin-left:0;}
+  }
+
+  /* Cards */
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+  .card {
+    background:#fff; border-radius:12px; padding:20px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    display:flex; flex-direction:column; align-items:center;
+    justify-content:center; transition:0.3s;
+  }
+  .card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.15); }
+  .card i { font-size:2.5rem; margin-bottom:12px; color:#0a1f44; }
+  .card h3 { margin-bottom:8px; color:#1e3c72; }
+  .card p { text-align:center; color:#555; font-size:14px; }
+
+  /* Responsive */
+  @media(max-width:768px){
+    .sidebar { width:180px; }
+    .sidebar.active ~ .main { margin-left:180px; }
+  }
 </style>
 </head>
 <body>
 
+<header>
+  <h1>Admin Dashboard</h1>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</header>
+
+<button class="toggle-btn" id="toggleBtn"><i class="fas fa-ellipsis-v"></i></button>
+
 <div class="sidebar" id="sidebar">
-  <a href="#"><i class="lucide-users"></i> Student Manager</a>
-  <a href="#"><i class="lucide-user-check"></i> Teacher Manager</a>
-  <a href="#"><i class="lucide-school"></i> Class Manager</a>
-  <a href="#"><i class="lucide-book-open"></i> Subject Manager</a>
-  <a href="#"><i class="lucide-bar-chart-3"></i> Reports Manager</a>
-  <a href="#" id="logoutBtn"><i class="lucide-log-out"></i> Logout</a>
+  <a href="#"><i class="fas fa-chalkboard-teacher"></i> Teacher Manager</a>
+  <a href="#"><i class="fas fa-user-graduate"></i> Student Manager</a>
+  <a href="#"><i class="fas fa-school"></i> Classes Manager</a>
+  <a href="#"><i class="fas fa-book"></i> Subjects Manager</a>
+  <a href="#"><i class="fas fa-file-alt"></i> Reports</a>
 </div>
 
-<div class="topbar">
-  <div>N-Sikhi <span>Atracker</span></div>
-  <button class="menu-btn" id="menuBtn" style="display:none;">☰</button>
-</div>
+<div class="main">
+  <div class="slider">
+    <div class="slides">
+      <img src="https://via.placeholder.com/1200x250?text=Teacher+Manager" alt="">
+      <img src="https://via.placeholder.com/1200x250?text=Student+Manager" alt="">
+      <img src="https://via.placeholder.com/1200x250?text=Classes+Manager" alt="">
+      <img src="https://via.placeholder.com/1200x250?text=Subjects+Manager" alt="">
+      <img src="https://via.placeholder.com/1200x250?text=Reports" alt="">
+    </div>
+  </div>
 
-<div class="content">
-  <h1>Welcome, Admin 👋</h1>
-  <div class="card">Student Manager Section</div>
-  <div class="card">Teacher Manager Section</div>
-  <div class="card">Class Manager Section</div>
-  <div class="card">Subject Manager Section</div>
-  <div class="card">Reports Manager Section</div>
+  <div class="cards">
+    <div class="card">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <h3>Teacher Manager</h3>
+      <p>Add, Edit or Delete Teacher Records</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-user-graduate"></i>
+      <h3>Student Manager</h3>
+      <p>Manage Student Details & Performance</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-school"></i>
+      <h3>Classes Manager</h3>
+      <p>Assign Classes & Timetable</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-book"></i>
+      <h3>Subjects Manager</h3>
+      <p>Add & Organize Subjects</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-file-alt"></i>
+      <h3>Reports</h3>
+      <p>View & Download Student Reports</p>
+    </div>
+  </div>
 </div>
 
 <script>
-const sidebar = document.getElementById('sidebar');
-const menuBtn = document.getElementById('menuBtn');
+  // Session check
+  if (localStorage.getItem("isLoggedIn") !== "true" || localStorage.getItem("userType") !== "admin") {
+    window.location.href = "index.html";
+  }
 
-// Mobile toggle
-menuBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('active');
-});
+  // Logout
+  function logout() {
+    localStorage.clear();
+    window.location.href = "index.html";
+  }
 
-// Logout
-document.getElementById('logoutBtn').addEventListener('click', () => {
-  localStorage.removeItem('adminLoggedIn');
-  window.location.href = 'index.html';
-});
-
-// Check session
-if(localStorage.getItem('adminLoggedIn') !== 'true'){
-  window.location.href = 'index.html';
-}
+  // Sidebar toggle
+  const toggleBtn = document.getElementById("toggleBtn");
+  const sidebar = document.getElementById("sidebar");
+  toggleBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+  });
 </script>
 
 </body>
