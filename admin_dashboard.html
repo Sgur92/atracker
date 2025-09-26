@@ -142,14 +142,14 @@
   async function checkSession() {
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (!session) {
-      window.location.href = 'login.html'; // back to login if not logged in
+      window.location.href = 'index.html'; // back to login if not logged in
     }
   }
   checkSession();
 
   function logout() {
     supabaseClient.auth.signOut();
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   }
 
   function loadSection(section) {
@@ -169,3 +169,4 @@
 </script>
 </body>
 </html>
+
