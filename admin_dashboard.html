@@ -139,13 +139,13 @@
 
     if (!userType || userType !== 'admin' || !userId) {
       // not logged in or not admin
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
     }
   }
 
   function logout() {
     localStorage.clear();
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   }
 
   function loadSection(section) {
@@ -165,3 +165,4 @@
 </script>
 </body>
 </html>
+
