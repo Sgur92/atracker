@@ -7,7 +7,6 @@
 <link href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -18,7 +17,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Sidebar */
 .sidebar {
   width: 240px;
   height: 100vh;
@@ -47,12 +45,8 @@ body {
   border-left: 4px solid #ffd700;
   transform: translateX(5px);
 }
-.sidebar i {
-  font-size: 18px;
-  color: #ffd700;
-}
+.sidebar i { font-size: 18px; color: #ffd700; }
 
-/* Topbar */
 .topbar {
   position: fixed;
   top: 0;
@@ -69,7 +63,6 @@ body {
 }
 .topbar span { color: #ffd700; }
 
-/* Main Content */
 .content {
   margin-left: 240px;
   padding: 100px 2rem 2rem;
@@ -97,7 +90,6 @@ h1 { font-size: 2rem; margin-bottom: 1rem; }
 </head>
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
   <a href="#"><i class="lucide-users"></i> Student Manager</a>
   <a href="#"><i class="lucide-user-check"></i> Teacher Manager</a>
@@ -107,26 +99,28 @@ h1 { font-size: 2rem; margin-bottom: 1rem; }
   <a href="#" id="logoutBtn"><i class="lucide-log-out"></i> Logout</a>
 </div>
 
-<!-- Topbar -->
 <div class="topbar">
   <div>N-Sikhi <span>Atracker</span></div>
   <button class="menu-btn" id="menuBtn" style="display:none;">☰</button>
 </div>
 
-<!-- Main Content -->
 <div class="content">
   <h1>Welcome, Admin 👋</h1>
-  <div class="card">
-    <h2>Dashboard Overview</h2>
-    <p>Use the sidebar to manage students, teachers, classes, subjects, and reports.</p>
-  </div>
+  <div class="card">Student Manager Section</div>
+  <div class="card">Teacher Manager Section</div>
+  <div class="card">Class Manager Section</div>
+  <div class="card">Subject Manager Section</div>
+  <div class="card">Reports Manager Section</div>
 </div>
 
 <script>
-// Session check
-if(localStorage.getItem('adminLoggedIn') !== 'true'){
-  window.location.href = 'index.html';
-}
+const sidebar = document.getElementById('sidebar');
+const menuBtn = document.getElementById('menuBtn');
+
+// Mobile toggle
+menuBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('active');
+});
 
 // Logout
 document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -134,10 +128,10 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
   window.location.href = 'index.html';
 });
 
-// Mobile menu toggle
-const menuBtn = document.getElementById('menuBtn');
-const sidebar = document.getElementById('sidebar');
-menuBtn.addEventListener('click', () => sidebar.classList.toggle('active'));
+// Check session
+if(localStorage.getItem('adminLoggedIn') !== 'true'){
+  window.location.href = 'index.html';
+}
 </script>
 
 </body>
