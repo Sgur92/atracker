@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +8,6 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-  /* Body */
   body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
@@ -26,7 +26,6 @@
     100% {background-position: 0% 50%;}
   }
 
-  /* Glassmorphism Card */
   .login-card {
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(15px);
@@ -49,7 +48,6 @@
     }
   }
 
-  /* Logo */
   .logo {
     font-size: 1.8rem;
     font-weight: 700;
@@ -58,11 +56,8 @@
     text-shadow: 0 0 5px rgba(0,0,0,0.3);
   }
 
-  .logo span {
-    color: #ffd700; /* Gold accent */
-  }
+  .logo span { color: #ffd700; }
 
-  /* Headings */
   .login-card h2 {
     margin-bottom: 1.5rem;
     color: #fff;
@@ -70,11 +65,10 @@
     text-shadow: 0 0 5px rgba(0,0,0,0.2);
   }
 
-  /* Inputs & Select (uniform height) */
   .login-card input,
   .login-card select {
     width: 100%;
-    padding: 1rem 1rem;
+    padding: 1rem;
     margin-bottom: 1.2rem;
     border-radius: 10px;
     border: none;
@@ -97,7 +91,6 @@
     box-shadow: 0 0 10px rgba(255,255,255,0.5);
   }
 
-  /* Button */
   .login-card button {
     width: 100%;
     padding: 1rem;
@@ -118,7 +111,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
-  /* Message */
   .message {
     margin-top: 1rem;
     font-weight: 500;
@@ -127,7 +119,6 @@
     text-shadow: 0 0 5px rgba(0,0,0,0.3);
   }
 
-  /* Spinner */
   .spinner {
     border: 4px solid rgba(255,255,255,0.3);
     border-top: 4px solid #ffd700;
@@ -144,14 +135,9 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* Responsive */
   @media(max-width: 480px) {
-    .login-card {
-      padding: 2rem 1.5rem;
-    }
-    .login-card h2 {
-      font-size: 1.4rem;
-    }
+    .login-card { padding: 2rem 1.5rem; }
+    .login-card h2 { font-size: 1.4rem; }
     .login-card input, .login-card select, .login-card button {
       padding: 0.9rem 1rem;
     }
@@ -174,13 +160,11 @@
   <p class="message" id="message"></p>
 </div>
 
-<!-- Supabase CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
   const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
   const loginBtn = document.getElementById('loginBtn');
   const message = document.getElementById('message');
   const spinner = document.getElementById('spinner');
@@ -214,15 +198,21 @@
         message.textContent = "Invalid User ID or Password!";
         message.style.color = "red";
       } else {
+        // ✅ Save session in localStorage
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userType", userType);
+        localStorage.setItem("userId", userId);
+
         message.textContent = `Login Successful! Redirecting...`;
         message.style.color = "lime";
 
-        // Redirect based on userType
-        if (userType === 'admin') {
-          window.location.href = 'admin_dashboard.html';
-        } else if (userType === 'teacher') {
-          window.location.href = 'teacher_dashboard.html';
-        }
+        setTimeout(() => {
+          if (userType === 'admin') {
+            window.location.href = 'admin_dashboard.html';
+          } else {
+            window.location.href = 'teacher_dashboard.html';
+          }
+        }, 1000);
       }
     } catch (err) {
       spinner.style.display = 'none';
@@ -230,8 +220,7 @@
       message.style.color = "red";
       console.error(err);
     }
-});
-
+  });
 </script>
 
 </body>
